@@ -7,7 +7,7 @@ namespace GT.DataSync.Api.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("authoritative")]
+    [Route("api/authoritative")]
     public class AuthoritativeEmployeeController : ControllerBase
     {
         private readonly AuthoritativeSampleDataService _employees;

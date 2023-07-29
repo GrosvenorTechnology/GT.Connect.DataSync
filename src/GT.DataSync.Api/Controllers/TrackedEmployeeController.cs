@@ -9,7 +9,7 @@ namespace GT.DataSync.Api.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("tracked")]
+    [Route("api/tracked")]
 
     public class TrackedEmployeeController : ControllerBase
     {

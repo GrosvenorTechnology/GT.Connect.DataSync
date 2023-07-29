@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GT.DataSync.Api.Controllers
 {
     [ApiController]
-    [Route("distributiongroup")]
+    [Route("api/distributiongroup")]
     public class DistributionGroupController : ControllerBase
     {
         private readonly AuthoritativeSampleDataService _employees;

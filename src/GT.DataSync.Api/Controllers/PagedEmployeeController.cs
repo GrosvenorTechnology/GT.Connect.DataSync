@@ -7,7 +7,7 @@ namespace GT.DataSync.Api.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("paged")]
+    [Route("api/paged")]
     public class PagedEmployeeController : ControllerBase
     {
         private readonly PagedSampleDataService _employees;

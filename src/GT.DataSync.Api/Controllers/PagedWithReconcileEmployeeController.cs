@@ -9,7 +9,7 @@ namespace GT.DataSync.Api.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("pagedWithReconcile")]
+    [Route("api/pagedWithReconcile")]
 
     public class PagedWithReconcileEmployeeController : ControllerBase
     {

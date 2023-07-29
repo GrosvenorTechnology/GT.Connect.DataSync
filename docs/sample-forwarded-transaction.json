@@ -1,0 +1,11 @@
+{
+    "messageId": "33e97178-0594-4f5b-ba4a-a3c3f9f12d8e",
+    "correlationId": "3efb6e81-6aad-4363-892d-fd972db4587b",
+    "previousMessageId": null,
+    "timestamp": "2023-07-29T00:05:06+01:00",
+    "entity": "FP-GT8-WH~0101007626",
+    "eventName": "transaction",
+    "contents": {
+        "data": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<transaction>\n <transID>02e07a24-7242-4856-b08d-9246e990025d</transID>\n <deviceID>FP-GT8-WH~0101007626</deviceID>\n <employee>\n <empID>44825e03-7e23-42bf-4cfc-08da0b3f08ae</empID>\n <identifiedBy>\n <face>44825e03-7e23-42bf-4cfc-08da0b3f08ae</face>\n </identifiedBy>\n <verifiedBy>\n <none />\n </verifiedBy>\n </employee>\n <data>\n <clocking>\n <time>2023-07-29T00:05:06+0100</time>\n <type>in</type>\n </clocking>\n </data>\n</transaction>"
+    }
+}

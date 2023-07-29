@@ -1,0 +1,9 @@
+<interface>
+    <action>Online-Transaction</action>
+    <requestedOn>07/28/2023 22:58:49 +00:00</requestedOn>
+    <requestType>POST</requestType>
+    <payload>&lt;?xml version="1.0" encoding="utf-16"?&gt; &lt;transaction&gt; &lt;transID&gt;641e1e71-3cb8-427c-b439-cdbb5f303ef8&lt;/transID&gt; &lt;deviceID&gt;FP-GT8-WH~0101007739&lt;/deviceID&gt; &lt;employee&gt; &lt;empID&gt;{{employeeId}}&lt;/empID&gt; &lt;identifiedBy&gt; &lt;keypadID&gt;6141016&lt;/keypadID&gt; &lt;/identifiedBy&gt; &lt;verifiedBy&gt; &lt;pin&gt;12345&lt;/pin&gt; &lt;/verifiedBy&gt; &lt;/employee&gt; &lt;data&gt; &lt;clocking&gt; &lt;time&gt;2023-06-19T20:47:09&lt;/time&gt; &lt;type&gt;in&lt;/type&gt; &lt;jobCodes&gt; &lt;jobCode&gt; &lt;jobcodeId&gt;6873&lt;/jobcodeId&gt; &lt;jobCategoryId&gt;a&lt;/jobCategoryId&gt; &lt;/jobCode&gt; &lt;/jobCodes&gt; &lt;/clocking&gt; &lt;/data&gt; &lt;/transaction&gt;</payload>
+    <sourceDeviceSerial>FP-GT8-WH~0101007739</sourceDeviceSerial>
+    <sourceDeviceId>7f47d1ef-fb30-4552-84c4-014e2ed6bc13</sourceDeviceId>
+    <tenantId>54458dda-ca3d-450b-9467-92a881a75539</tenantId>
+</interface>

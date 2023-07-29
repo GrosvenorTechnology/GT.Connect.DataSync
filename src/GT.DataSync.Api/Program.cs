@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers()
+     .AddXmlSerializerFormatters()
      .AddJsonOptions(options =>
                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
@@ -68,5 +69,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//This enables buffering so we can dump the content of the 
+// Request to the log, not needed in production
+app.Use(next => context => {
+    context.Request.EnableBuffering();
+    return next(context);
+});
 
 app.Run();
