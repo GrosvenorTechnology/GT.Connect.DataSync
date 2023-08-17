@@ -28,7 +28,7 @@ This will capture a transaction with the following format
 
 An online request is made synchronously, the server must respond to the clock with a response in real time.  If the server responds with anything else other than a valid 200 response a failure message will be sent to the clock.
 
-![image](./docs/images/forward-example.png)
+![image](./docs/images/online-transactions-example.png)
 
 A sample of the message posted (the request content will be application/xml)
 
