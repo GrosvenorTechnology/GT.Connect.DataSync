@@ -1,8 +1,46 @@
 # Transaction Routing
 
-To initially check how transactions look, you can use a site like https://typedwebhook.tools/ 
+There are several options for sending transactions to a third party system, they can be grouped into the following two main use cases:
+
+## Offline Transactions
+
+The forward system is designed to provide a buffered way to transfer a transaction to a third party.  This method should be used when the transaction can be submitted at the clock without the need for the clock to display any realtime response fom the third party system.  This can provide protection for the following issues:
+ - The clock is offline, the transaction is held at the clock until it can establish a connection to GtConnect.
+ - The third party is offline, in which case the transaction will be buffered in GtConnect until it can be successfully delivered.
+
+ When configuring the clocking method in the clocks buttons file, use the **ws.clocking** action. See the EasyClock reference manual for details.
+ 
+### Available transports for Forwarders
+ - HTTP webhook - The transaction will be delivered over the HTTPS.
+ - Azure Service Bus - The transactions will be queued into an Azure Service Bus provided by the third party.  Details on service bus can be found here: https://azure.microsoft.com/en-gb/products/service-bus
+
+
+### Testing transaction delivery via HTTP
+
+To initially check how transactions look, we recommend using a site like https://typedwebhook.tools/ 
+
+## Online Transactions
+
+The Server Actions system is designed to provide RPC style processing of transactions, where when the transaction is submitted, a real time call is made through the GtConnect infrastructure to the third party, which then decides if to accept or reject the transaction which it then communicates back to the clock in it's response; the clock also returns a message that will be displayed to the user.  If the clock can not communicate through to the third party, it can be configured to either forward the transaction via the offline method or block the user from clocking.
+
+When configuring the clocking method in the clocks buttons file, use the **ws.clocking.online** action. See the EasyClock reference manual for details.
+
+The only transport currently available for delivery of transactions via the online server action method is HTTP.
+
 
 ## Forwarded offline transaction
+
+Forwarders can be configured on any node, they will capture transactions from any devices on that node or lower.  We recommend single higher level forwarders rather lots of lower level forwarders, where feasible. If multiple forwarders are defined that capture a device, the messages for that device will be duplicated across all valid forwarders.
+
+It's possible to define a filter for the types of transactions to be sent.  Currently the types of messages that can be forwarded are:
+ - **transaction** : A transaction received from the device
+ - **device-connection-update** : Notification that we have received a heartbeat from the device.
+
+If the filter is not defined, all messages will be forwarded.
+
+For the Service Bus transport the destination should be a connection string generated for a specific queue.  The SAS policy used should contain only send permissions.
+
+For the HTTP transport, the destination should be the full URL needed to deliver a message.  The URL is used as, including all query string components.
 
 Offline transactions will be delivered with a one way call to a web hook.  The server should return a success code 200, 201 or 204 to tell GtConnect that the message can be marked as processed.  If the returns another code the message will be requeued for delivery till successful or the message times out.
 
@@ -23,6 +61,19 @@ This will capture a transaction with the following format
     }
 }
 ```
+
+A device status update message has the format below:
+
+```json
+{
+    "messageId": "0b0a966f-ea72-4ae7-8b80-de9d18cf00c1",
+    "entity": "fb33beab-7fe7-45b5-84be-8a5a0c90e31b",
+    "eventName": "device-connection-update",
+    "lastConnected": "2023-09-18T14:38:03.1692877+00:00"
+}
+```
+
+> IMPORTANT: Device status messages are deprecated and will be remove in a future version. 
 
 ## Server action online transaction
 
