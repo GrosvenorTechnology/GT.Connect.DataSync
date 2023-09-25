@@ -99,7 +99,7 @@ The response returned to the clock should again be XML
 
 ```xml
 <response failed="false">
-    <message>Thankyou for your clocking!</message>
+    <message>Thank you for your clocking!</message>
 </response>
 ```
 
