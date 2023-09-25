@@ -103,6 +103,11 @@ The response returned to the clock should again be XML
 </response>
 ```
 
+> To see an example of this flow in action, you can point the server action to our test server, this 
+> will accept any transaction you you send to it, and can be used for verifying the process from the clock 
+> to target server, before embarking on developing your own endpoint :
+> https://datasync-api-demo.azurewebsites.net/bogus/transaction/online
+
 ## Testing with Visual Studio Dev Tunnels
 
 The easiest way to test is to run our sample and set up Visual Studio dev tunnel, this
