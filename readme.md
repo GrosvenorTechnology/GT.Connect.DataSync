@@ -82,7 +82,9 @@ A device status update message has the format below:
 
 ### device-app-status-update
 
-A device status update message has the format below:
+This message is sent when ever we detect a change in state of the device, i.e. we have not received a heartbeat for longer that the offline timeout period.
+
+A device app-status update message has the format below:
 
 ```json
 {
