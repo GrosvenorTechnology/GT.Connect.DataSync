@@ -32,15 +32,18 @@ The only transport currently available for delivery of transactions via the onli
 
 Forwarders can be configured on any node, they will capture transactions from any devices on that node or lower.  We recommend single higher level forwarders rather lots of lower level forwarders, where feasible. If multiple forwarders are defined that capture a device, the messages for that device will be duplicated across all valid forwarders.
 
-It's possible to define a filter for the types of transactions to be sent.  Currently the types of messages that can be forwarded are:
+It's possible to define a filter for the **event type** of messages to be forwarded.  Currently the types of messages that can be forwarded are:
  - **transaction** : A transaction received from the device
  - **device-connection-update** : Notification that we have received a heartbeat from the device.
+ - **device-app-status-update** : Notification that our monitored online application state of a device has changed.
 
 If the filter is not defined, all messages will be forwarded.
 
 For the Service Bus transport the destination should be a connection string generated for a specific queue.  The SAS policy used should contain only send permissions.
 
 For the HTTP transport, the destination should be the full URL needed to deliver a message.  The URL is used as, including all query string components.
+
+### Transaction
 
 Offline transactions will be delivered with a one way call to a web hook.  The server should return a success code 200, 201 or 204 to tell GtConnect that the message can be marked as processed.  If the returns another code the message will be requeued for delivery till successful or the message times out.
 
@@ -62,6 +65,10 @@ This will capture a transaction with the following format
 }
 ```
 
+### device-connection-update
+
+> IMPORTANT: Device status messages are deprecated and will be remove in a future version. 
+
 A device status update message has the format below:
 
 ```json
@@ -73,7 +80,20 @@ A device status update message has the format below:
 }
 ```
 
-> IMPORTANT: Device status messages are deprecated and will be remove in a future version. 
+### device-app-status-update
+
+A device status update message has the format below:
+
+```json
+{
+    "messageId": "0b0a966f-ea72-4ae7-8b80-de9d18cf00c1",
+    "entity": "fb33beab-7fe7-45b5-84be-8a5a0c90e31b",
+    "eventName": "device-connection-update",
+    "lastConnected": "2023-09-18T14:38:03.1692877+00:00",
+    "serialNumber": "FP-GT8~00001234",
+    "status": "online" 
+}
+```
 
 ## Server action online transaction
 
