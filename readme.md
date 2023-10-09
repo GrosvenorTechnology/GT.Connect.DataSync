@@ -88,12 +88,17 @@ A device status update message has the format below:
 {
     "messageId": "0b0a966f-ea72-4ae7-8b80-de9d18cf00c1",
     "entity": "fb33beab-7fe7-45b5-84be-8a5a0c90e31b",
-    "eventName": "device-connection-update",
+    "eventName": "device-app-status-update",
     "lastConnected": "2023-09-18T14:38:03.1692877+00:00",
     "serialNumber": "FP-GT8~00001234",
     "status": "online" 
 }
 ```
+
+In this message:
+ - entity : The GtConnect ID for the device
+ - serialNumber : The devices serial number
+ - status: The updated status of the device, this can be online or offline. 
 
 ## Server action online transaction
 
