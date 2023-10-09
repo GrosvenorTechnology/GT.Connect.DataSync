@@ -28,7 +28,7 @@ When configuring the clocking method in the clocks buttons file, use the **ws.cl
 The only transport currently available for delivery of transactions via the online server action method is HTTP.
 
 
-## Forwarded offline transaction
+## Forwarded Messages
 
 Forwarders can be configured on any node, they will capture transactions from any devices on that node or lower.  We recommend single higher level forwarders rather lots of lower level forwarders, where feasible. If multiple forwarders are defined that capture a device, the messages for that device will be duplicated across all valid forwarders.
 
