@@ -35,7 +35,8 @@ Forwarders can be configured on any node, they will capture transactions from an
 It's possible to define a filter for the **event type** of messages to be forwarded.  Currently the types of messages that can be forwarded are:
  - **transaction** : A transaction received from the device
  - **device-connection-update** : Notification that we have received a heartbeat from the device.
- - **device-app-status-update** : Notification that our monitored online application state of a device has changed.
+ - **device-online** : Notification that we detected that the device app link has come online.
+ - **device-offline** : Notification that we detected that the device app link has gone offline.
 
 If the filter is not defined, all messages will be forwarded.
 
@@ -60,10 +61,21 @@ This will capture a transaction with the following format
     "entity": "FP-GT8-WH~0101007626",
     "eventName": "transaction",
     "contents": {
-        "data": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<transaction>\n <transID>02e07a24-7242-4856-b08d-9246e990025d</transID>\n <deviceID>FP-GT8-WH~0101007626</deviceID>\n <employee>\n <empID>44825e03-7e23-42bf-4cfc-08da0b3f08ae</empID>\n <identifiedBy>\n <face>44825e03-7e23-42bf-4cfc-08da0b3f08ae</face>\n </identifiedBy>\n <verifiedBy>\n <none />\n </verifiedBy>\n </employee>\n <data>\n <clocking>\n <time>2023-07-29T00:05:06+0100</time>\n <type>in</type>\n </clocking>\n </data>\n</transaction>"
+        "data": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<transaction>\n <transID>02e07a24-7242-4856-b08d-9246e990025d</transID>\n <deviceID>FP-GT8-WH~0101007626</deviceID>\n <employee>\n <empID>44825e03-7e23-42bf-4cfc-08da0b3f08ae</empID>\n <identifiedBy>\n <face>44825e03-7e23-42bf-4cfc-08da0b3f08ae</face>\n </identifiedBy>\n <verifiedBy>\n <none />\n </verifiedBy>\n </employee>\n <data>\n <clocking>\n <time>2023-07-29T00:05:06+0100</time>\n <type>in</type>\n </clocking>\n </data>\n</transaction>",
+        "tenant-id": "80c63ebe-e209-4d73-9b52-08d75c64fd90",
+        "device-id": "066bd5d1-e9b8-4879-8575-f74867d88a45",
+        "device-serial": "FP-GT10S-A~00002021",
+        "device-node-id": "5",
+        "company-node-id": "5",
+        "company-id": "7e80327f-f31f-4bce-b32a-08dbc9691eec",
+        "transaction-employee-id": "34105922-17a2-4841-c10f-08dbc99addaa",
+        "transaction-employee-external-id": "2710425",
+        "transaction-employee-badgecode": "58305890457"
     }
 }
 ```
+
+In the transaction example above, the contents.data property contains the source data for the transaction.  The other properties under contents are contextual data that has been added to the transaction make working with the transaction easier when received; these properties will vary based on the transaction type.
 
 ### device-connection-update
 
@@ -122,7 +134,31 @@ A sample of the message posted (the request content will be application/xml)
 </interface>
 ```
 
-The response returned to the clock should again be XML
+If you change the PayloadType of the server action to Json, the payload you get will look like this
+
+```json
+{
+    "Action": "Online-Transaction",
+    "RequestedOn": "2023-10-13T02:00:04.5420928+00:00",
+    "TenantId": "80c63ebe-e209-4d73-9b52-08d75c64fd90",
+    "payload": {
+        "transaction": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<transaction>\r\n  <transID>afbc4fa4-d228-48e9-ad94-2aa8ab2033be</transID>\r\n  <deviceID>FP-GT10S-A~00002021</deviceID>\r\n  <employee>\r\n    <empID>34105922-17a2-4841-c10f-08dbc99addaa</empID>\r\n    <identifiedBy>\r\n      <keypadID>1001</keypadID>\r\n    </identifiedBy>\r\n    <verifiedBy>\r\n      <pin>1001</pin>\r\n    </verifiedBy>\r\n  </employee>\r\n  <data>\r\n    <clocking>\r\n      <time>2023-10-10T23:54:16</time>\r\n      <type>in</type>\r\n    </clocking>\r\n  </data>\r\n</transaction>"
+    },
+    "PayloadContext": {
+        "tenant-id": "80c63ebe-e209-4d73-9b52-08d75c64fd90",
+        "device-id": "066bd5d1-e9b8-4879-8575-f74867d88a45",
+        "device-serial": "FP-GT10S-A~00002021",
+        "device-node-id": "5",
+        "company-node-id": "5",
+        "company-id": "7e80327f-f31f-4bce-b32a-08dbc9691eec",
+        "transaction-employee-id": "34105922-17a2-4841-c10f-08dbc99addaa",
+        "transaction-employee-external-id": "2710425",
+        "transaction-employee-badgecode": "58305890457"
+    }
+}
+```
+
+The response returned from your API should in both cases (Json or XML request) be XML
 
 ```xml
 <response failed="false">
@@ -133,7 +169,8 @@ The response returned to the clock should again be XML
 > To see an example of this flow in action, you can point the server action to our test server, this 
 > will accept any transaction you you send to it, and can be used for verifying the process from the clock 
 > to target server, before embarking on developing your own endpoint :
-> https://datasync-api-demo.azurewebsites.net/bogus/transaction/online
+> https://datasync-api-demo.azurewebsites.net/bogus/transaction/online (XML mode)
+> https://datasync-api-demo.azurewebsites.net/bogus/transaction/online-json (JSON mode)
 
 ## Testing with Visual Studio Dev Tunnels
 
