@@ -1,8 +1,5 @@
-﻿using Azure.Core;
-using GT.DataSync.Api.Models;
+﻿using GT.DataSync.Api.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 namespace GT.DataSync.Api.Controllers;
@@ -46,7 +43,6 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost("offline")]
-    //[Consumes("application/xml")]
     [Produces("application/xml")]
     [ProducesResponseType(typeof(XElement), StatusCodes.Status200OK)]
     public async Task<IActionResult> PostOfflineTransaction([FromBody] ForwardedDeviceMessage message)

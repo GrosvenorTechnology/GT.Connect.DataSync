@@ -4,9 +4,8 @@ namespace GT.DataSync.Core.Data;
 
 public class EmployeeSyncResponse
 {
+    public required ControlBlock? Control { get; set; }
     [Required]
-    public ControlBlock? Control { get; set; }
-    [Required]
-    public List<Employee>? Employees { get; set; }
+    public required List<Employee>? Employees { get; set; }
 }
 

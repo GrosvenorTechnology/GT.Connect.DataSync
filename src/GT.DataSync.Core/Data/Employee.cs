@@ -5,15 +5,12 @@ namespace GT.DataSync.Core.Data;
 
 public class Employee : Entity
 {    
-    [Required]
     [StringLength(100)]
-    public string? GivenName { get; set; }
-    [Required]
+    public required string GivenName { get; set; }
     [StringLength(100)]
-    public string? FamilyName { get; set; }
+    public required string FamilyName { get; set; }
     [StringLength(50)]
     public string? BadgeCode { get; set; }
-    [Required]
     [StringLength(50)]
     public string? KeypadId { get; set; }
     [StringLength(50)]

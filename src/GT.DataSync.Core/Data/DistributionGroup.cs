@@ -1,8 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace GT.DataSync.Core.Data;
 
-namespace GT.DataSync.Core.Data
+public class DistributionGroup : Entity
 {
-    public class DistributionGroup : Entity
-    {
-    }
 }

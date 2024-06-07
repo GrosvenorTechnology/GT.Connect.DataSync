@@ -4,10 +4,10 @@ using Refit;
 
 Console.WriteLine("Hello, World!");
 
-//var baseUrl = "https://localhost:7020/authoritative";
-//var baseUrl = "https://localhost:7020/paged";
-//var baseUrl = "https://localhost:7020/pagedWithReconcile";
-var baseUrl = "https://localhost:7020/tracked";
+//Uncoment one of these baseUrls for the mode of operation you want to try out
+//var baseUrl = "https://localhost:7020/api/authoritative";
+var baseUrl = "https://localhost:7020/api/paged";
+
 var username = "stephen";
 var password = "p@ssw0rd";
 
@@ -30,8 +30,10 @@ var employees = new List<Employee>();
 
 do
 {
+    var requestEmployees = new List<Employee>();
     Console.WriteLine("Starting import run...");
     var totalItems = 0;
+    token = "";
     do
     {
         Console.WriteLine($"Requesting employees, token: {token}");
@@ -62,20 +64,18 @@ do
                     Console.WriteLine($"Adding User: {emp.Id}");
                     employees.Add(emp);
                 }
+
+                requestEmployees.Add(emp);
             }
 
             if (response.Content.Control?.AuthoritativeList == true)
             {
-                AuthoritativeListReconcile(employees, response.Content.Employees);
-                break;
-            }
-            else if (response.Content.Control?.TriggerReconcile == true)
-            {
-                await Reconcile(api, employees);
+                AuthoritativeListReconcile(employees, requestEmployees);
                 break;
             }
             else if (response.Content.Employees.Count == 0 || response.Content.Control?.NoMoreData == true)
             {
+                AuthoritativeListReconcile(employees, requestEmployees);
                 break;
             }
             else if (string.IsNullOrEmpty(response.Content?.Control?.ContinuationToken))
@@ -113,22 +113,3 @@ static void AuthoritativeListReconcile(List<Employee> employees, List<Employee> 
     Console.WriteLine("Internal reconcile complete...");
 }
 
-
-static async Task Reconcile(IDataSyncServiceApi api, List<Employee> employees)
-{
-    Console.WriteLine("Starting internal reconcile...");
-
-    var keyListResponse = await api.GetEmployeeKeys();
-    if (keyListResponse.IsSuccessStatusCode && keyListResponse?.Content?.Keys is not null)
-    {
-        var keys = keyListResponse.Content.Keys;
-        var toDelete = employees.Select(x => x.Id).Except(keys).ToList();
-        foreach (var id in toDelete)
-        {
-            var emp = employees.Single(x => x.Id == id);
-            employees.Remove(emp);
-            Console.WriteLine($"Deleteing User: {emp.Id}");
-        }
-    }
-    Console.WriteLine("Internal reconcile complete...");
-}
